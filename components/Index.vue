@@ -5,7 +5,7 @@
                 <myChoice></myChoice>
             </mt-tab-container-item>
             <mt-tab-container-item id="classity">
-                分类界面
+                <classity></classity>
             </mt-tab-container-item>
             <mt-tab-container-item id="book">
                 小萌书界面
@@ -14,7 +14,7 @@
                 
             </mt-tab-container-item>
             <mt-tab-container-item id="me">
-                我的界面
+                <me></me>
             </mt-tab-container-item>
         </mt-tab-container>
         <mt-tabbar v-model="selected" fixed>
@@ -29,6 +29,7 @@
             </mt-tab-item>
             <mt-tab-item id="cart">
                 <span class="four" :class="bclass4" @click="span2Click"></span>
+
             </mt-tab-item>
             <mt-tab-item id="me">
                 <span class="five" :class="bclass5" @click="span2Click"></span>
@@ -38,6 +39,8 @@
 </template>
 <script>
 import myChoice from './Choice'
+import classity from './Classity'
+import me from './Me'
 export default {
     data(){
         return {
@@ -76,6 +79,7 @@ export default {
                 this.bclass3.there1=false
                 this.bclass4.four1=true
                 this.bclass5.five1=false
+                this.$router.push("/Cart")
             }else if(e.target.className=="five"){
                 this.bclass1.one1=true
                 this.bclass2.two1=false
@@ -88,6 +92,8 @@ export default {
     },
     components:{
         myChoice,
+        classity,
+        me
     }
 }
 </script>

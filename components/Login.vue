@@ -61,6 +61,7 @@ export default {
                     duration: 2000
                     });
                     sessionStorage.setItem("uid",res.uid)
+                    sessionStorage.setItem("username",res.uname)
                     setTimeout(()=>{
                         history.go(-1)
                     },2500)

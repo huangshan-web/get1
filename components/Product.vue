@@ -58,10 +58,10 @@
         <div class="add-cart">
             <ul>
                 <li>
-                    <span class="mycollect"><span class="cart-txt">收藏</span></span><span class="mycart"><span class="cart-txt">购物车</span></span>
+                    <span class="mycollect"><span class="cart-txt">收藏</span></span><span class="mycart"><span class="cart-txt" @click="goCart">购物车</span></span>
                 </li>
                 <li>
-                    <button class="cart-btn" @click="addCart">加入购物车</button>
+                    <button class="cart-btn" @click="addCArt1">加入购物车</button>
                 </li>
             </ul>
         </div>
@@ -124,73 +124,79 @@ export default {
                 this.counts=1
             }
         },
-        addCart(){
-            var uid=sessionStorage.getItem("uid");
-            var pid=this.productList.pid;
-            var counts=this.counts;
-            console.log(uid)
-            if(uid!=null){
-                console.log(this.productList)
-                this.axios.get("select-cart",{params:{
-                    uid,
-                    pid,
-                }}).then(result=>{
-                    console.log(result,"chaxun")
-                    if(result.data.length>0){
-                        var cartCounts=counts+parseInt(result.data[0].counts);
-                        this.axios.get("update-cart",{params:{
-                            uid,
-                            pid,
-                            cartCounts,
-                        }}).then(result=>{
-                            console.log(result,"xiugai")
-                            if(result.data.code>0){
-                                this.$toast({
-                                    message: '添加成功',
-                                    position: 'center',
-                                    duration: 1000
-                                })
-                            }else{
-                                this.$toast({
-                                    message: '网络故障，添加失败',
-                                    position: 'center',
-                                    duration: 1000
-                                })  
-                            };
-                        })
-                    }else{
-                        this.axios.get("add-cart",{params:{
-                            uid,
-                            pid,
-                            pic:this.productList.pic,
-                            title:this.productList.title,
-                            price1:this.productList.price1,
-                            counts,
-                        }}).then(result=>{
-                            console.log(result,"ceshi")
-                            if(result.data.code>0){
-                                this.$toast({
-                                    message: '添加成功',
-                                    position: 'center',
-                                    duration: 1000
-                                })
-                            }else{
-                                this.$toast({
-                                    message: '网络故障，添加失败',
-                                    position: 'center',
-                                    duration: 1000
-                                })  
-                            };
-                        })
-                    }
-                });
-            }else{
-                this.$messagebox.confirm(
-                    "还未登录,是否去登录"
-                ).then(action=>{
-                    this.$router.push("Login")
-                }).catch(err=>{})    
-            }
+        addCArt1(){
+            this.addCart(this.productList.pid)
+        },
+        // addCart(){
+        //     var uid=sessionStorage.getItem("uid");
+        //     var pid=this.productList.pid;
+        //     var counts=this.counts;
+        //     console.log(uid)
+        //     if(uid!=null){
+        //         console.log(this.productList)
+        //         this.axios.get("select-cart",{params:{
+        //             uid,
+        //             pid,
+        //         }}).then(result=>{
+        //             console.log(result,"chaxun")
+        //             if(result.data.length>0){
+        //                 var cartCounts=counts+parseInt(result.data[0].counts);
+        //                 this.axios.get("update-cart",{params:{
+        //                     uid,
+        //                     pid,
+        //                     cartCounts,
+        //                 }}).then(result=>{
+        //                     console.log(result,"xiugai")
+        //                     if(result.data.code>0){
+        //                         this.$toast({
+        //                             message: '添加成功',
+        //                             position: 'center',
+        //                             duration: 1000
+        //                         })
+        //                     }else{
+        //                         this.$toast({
+        //                             message: '网络故障，添加失败',
+        //                             position: 'center',
+        //                             duration: 1000
+        //                         })  
+        //                     };
+        //                 })
+        //             }else{
+        //                 this.axios.get("add-cart",{params:{
+        //                     uid,
+        //                     pid,
+        //                     pic:this.productList.pic,
+        //                     title:this.productList.title,
+        //                     price1:this.productList.price1,
+        //                     counts,
+        //                 }}).then(result=>{
+        //                     console.log(result,"ceshi")
+        //                     if(result.data.code>0){
+        //                         this.$toast({
+        //                             message: '添加成功',
+        //                             position: 'center',
+        //                             duration: 1000
+        //                         })
+        //                     }else{
+        //                         this.$toast({
+        //                             message: '网络故障，添加失败',
+        //                             position: 'center',
+        //                             duration: 1000
+        //                         })  
+        //                     };
+        //                 })
+        //             }
+        //         });
+        //     }else{
+        //         this.$messagebox.confirm(
+        //             "还未登录,是否去登录"
+        //         ).then(action=>{
+        //             this.$router.push("Login")
+        //         }).catch(err=>{})    
+        //     }
+        // },
+        goCart(){
+            this.$router.push("/Cart")
         }
     }
 }

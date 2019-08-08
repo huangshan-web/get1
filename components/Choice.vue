@@ -129,7 +129,9 @@
                         <p v-text="item.title" class="titlestyle"></p>
                         <p class="pricestyle1">
                             <span v-text="`¥${item.price1.toFixed(2)}`"></span>
-                            <span><router-link to=""><img src="../assets/cart.png"></router-link></span>
+                            <span>
+                                <button @click="addCart2" :data-pid="item.pid"></button>
+                            </span>
                         </p>
                     </li>
                 </ul>
@@ -144,6 +146,7 @@ export default {
         return {
             Sclass:{change:false},
             foodlist:[],
+            productList:[],
             swiperOption: {
                 slidesPerView: 3.5,
                 spaceBetween: 30,
@@ -152,7 +155,8 @@ export default {
                     el: '.swiper-pagination',
                     clickable: true
                 }
-            }
+            },
+            counts:1,
         }
     },
     created() {
@@ -195,6 +199,19 @@ export default {
             this.foodlist=result.data
             })
         },
+        addCart2(e){
+            var pid=e.target.getAttribute("data-pid")
+            this.axios.get(
+            "product",
+            {params:{pid}}
+            ).then(result=>{
+                this.productList=result.data[0]
+                console.log(this.productList)
+            })
+            // this.pid=pid1
+            // console.log(pid1)
+            this.addCart(pid);
+        }
     }
 }
 </script>
@@ -421,8 +438,13 @@ image[lazy=loading] {
 .you-like{
     width: 100%;
     padding:0 10px;
-    /* margin: 0 10px; */
+    margin-bottom:60px;
     box-sizing: border-box;
+}
+.you-like::after{
+    content:'';
+    display: block;
+    clear: both;
 }
 .you-like ul{
     width:100%;
@@ -461,10 +483,13 @@ image[lazy=loading] {
     justify-content: space-between;
     align-items: center;
 }
-.you-like .pricestyle1 img{
-    margin: 0;
+.you-like button{
     width:26px;
-    display: block;
+    height:26px;
+    outline: none;
+    border: 0;
+    background:url("../assets/cart.png") center center no-repeat;
+    background-size:100% 
 }
 </style>
 
